@@ -6,12 +6,12 @@
 #ifndef I_OBSTACLE_OBSERVATIONS_EXTRACTOR_H
 #define I_OBSTACLE_OBSERVATIONS_EXTRACTOR_H
 
+#include "selfie_obstacle_detection/ObstacleObservations.h"
+
 #include <sensor_msgs/LaserScan.h>
 
 namespace selfie_obstacle_detection
 {
-
-typedef int ObstacleObservations;
 
 class IObstacleObservationsExtractor
 {

@@ -8,9 +8,14 @@
 #include <gmock/gmock.h>
 
 using sensor_msgs::LaserScanPtr;
+
+using selfie_obstacle_detection::PointXY;
+using selfie_obstacle_detection::ObstacleObservation;
 using selfie_obstacle_detection::ObstacleObservations;
 using selfie_obstacle_detection::IObstacleObservationsExtractor;
 using selfie_obstacle_detection::CornerDetector;
+
+using ::testing::Return;
 
 class MockObstacleObservationsExtractor
 	: public IObstacleObservationsExtractor
@@ -26,7 +31,16 @@ TEST(CornerDetectorTestSuite, basicTest)
 
 	LaserScanPtr scan;
 
-	EXPECT_CALL(extractor, extractObstacleObservations(scan));
+	ObstacleObservation edgeObservation;
+	for (int i = 0; i < 15; i++) edgeObservation.emplace_back(0, 0);
+
+	ObstacleObservation cornerObservation;
+	for (int i = 0; i < 15; i++) cornerObservation.emplace_back(0, 0);
+
+	ObstacleObservations observations = { edgeObservation, cornerObservation };
+
+	EXPECT_CALL(extractor, extractObstacleObservations(scan))
+		.WillOnce(Return(observations));
 
 	detector.detectCorners(scan);
 }
