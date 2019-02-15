@@ -7,11 +7,15 @@
 
 #include <gtest/gtest.h>
 
+using sensor_msgs::LaserScanPtr;
 using selfie_obstacle_detection::CornerDetector;
 
 TEST(CornerDetectorTestSuite, basicTest)
 {
 	CornerDetector detector;
+
+	LaserScanPtr scan;
+	detector.detectCorners(scan);
 }
 
 int main(int argc, char **argv)

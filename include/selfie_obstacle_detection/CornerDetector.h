@@ -6,10 +6,16 @@
 #ifndef CORNER_DETECTOR_H
 #define CORNER_DETECTOR_H
 
+#include <sensor_msgs/LaserScan.h>
+
 namespace selfie_obstacle_detection
 {
 
-class CornerDetector { };
+class CornerDetector
+{
+public:
+	void detectCorners(sensor_msgs::LaserScanPtr scan);
+}; // class CornerDetector
 
 } // namespace selfie_obstacle_detection
 

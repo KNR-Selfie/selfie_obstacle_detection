@@ -14,6 +14,8 @@ catkin_package(
 
 include_directories(${catkin_INCLUDE_DIRS} include)
 
+add_library(CornerDetector src/CornerDetector.cpp)
+
 # Nodelet library
 add_library(${PROJECT_NAME} src/nodelets/remove_background.cpp)
 
@@ -26,4 +28,5 @@ install(FILES nodelet_plugins.xml
 
 if(CATKIN_ENABLE_TESTING)
   catkin_add_gtest(CornerDetectorTests test/CornerDetectorTests.cpp)
+  target_link_libraries(CornerDetectorTests CornerDetector)
 endif()
