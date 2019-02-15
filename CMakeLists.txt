@@ -23,3 +23,7 @@ install(TARGETS ${PROJECT_NAME}
 install(FILES nodelet_plugins.xml
         DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION}
 )
+
+if(CATKIN_ENABLE_TESTING)
+  catkin_add_gtest(CornerDetectorTests test/CornerDetectorTests.cpp)
+endif()
