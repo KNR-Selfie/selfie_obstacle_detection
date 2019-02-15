@@ -5,14 +5,19 @@
 
 #include "selfie_obstacle_detection/CornerDetector.h"
 
-#include <gtest/gtest.h>
+#include <gmock/gmock.h>
 
 using sensor_msgs::LaserScanPtr;
+using selfie_obstacle_detection::IObstacleObservationsExtractor;
 using selfie_obstacle_detection::CornerDetector;
+
+class MockObstacleObservationsExtractor
+	: public IObstacleObservationsExtractor { };
 
 TEST(CornerDetectorTestSuite, basicTest)
 {
-	CornerDetector detector;
+	MockObstacleObservationsExtractor extractor;
+	CornerDetector detector(extractor);
 
 	LaserScanPtr scan;
 	detector.detectCorners(scan);
@@ -20,6 +25,6 @@ TEST(CornerDetectorTestSuite, basicTest)
 
 int main(int argc, char **argv)
 {
-	testing::InitGoogleTest(&argc, argv);
+	::testing::InitGoogleMock(&argc, argv);
 	return RUN_ALL_TESTS();
 }
