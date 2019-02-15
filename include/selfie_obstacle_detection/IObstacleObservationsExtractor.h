@@ -11,10 +11,13 @@
 namespace selfie_obstacle_detection
 {
 
+typedef int ObstacleObservations;
+
 class IObstacleObservationsExtractor
 {
 public:
 	virtual ~IObstacleObservationsExtractor() {}
+	virtual ObstacleObservations extractObstacleObservations(sensor_msgs::LaserScanPtr scan) = 0;
 }; // class IObstacleObservationsExtractor
 
 } // namespace selfie_obstacle_detection

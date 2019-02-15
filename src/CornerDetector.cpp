@@ -10,9 +10,12 @@ using sensor_msgs::LaserScanPtr;
 namespace selfie_obstacle_detection
 {
 
-CornerDetector::CornerDetector(IObstacleObservationsExtractor extractor)
+CornerDetector::CornerDetector(IObstacleObservationsExtractor* extractor)
 	: extractor_(extractor) { }
 
-void CornerDetector::detectCorners(LaserScanPtr scan) { }
+void CornerDetector::detectCorners(LaserScanPtr scan)
+{
+	extractor_->extractObstacleObservations(scan);
+}
 
 } // namespace selfie_obstacle_detection

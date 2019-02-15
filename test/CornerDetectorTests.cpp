@@ -8,18 +8,26 @@
 #include <gmock/gmock.h>
 
 using sensor_msgs::LaserScanPtr;
+using selfie_obstacle_detection::ObstacleObservations;
 using selfie_obstacle_detection::IObstacleObservationsExtractor;
 using selfie_obstacle_detection::CornerDetector;
 
 class MockObstacleObservationsExtractor
-	: public IObstacleObservationsExtractor { };
+	: public IObstacleObservationsExtractor
+{
+public:
+	MOCK_METHOD1(extractObstacleObservations, ObstacleObservations(LaserScanPtr scan));
+};
 
 TEST(CornerDetectorTestSuite, basicTest)
 {
 	MockObstacleObservationsExtractor extractor;
-	CornerDetector detector(extractor);
+	CornerDetector detector(&extractor);
 
 	LaserScanPtr scan;
+
+	EXPECT_CALL(extractor, extractObstacleObservations(scan));
+
 	detector.detectCorners(scan);
 }
 
