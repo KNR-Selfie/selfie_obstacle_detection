@@ -12,7 +12,7 @@ catkin_package(
   LIBRARIES ${PROJECT_NAME}
 )
 
-include_directories(${catkin_INCLUDE_DIRS})
+include_directories(${catkin_INCLUDE_DIRS} include)
 
 # Nodelet library
 add_library(${PROJECT_NAME} src/nodelets/remove_background.cpp)

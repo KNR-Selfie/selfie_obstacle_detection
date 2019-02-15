@@ -3,9 +3,11 @@
  * This code is licensed under MIT license (see LICENSE for details)
  **/
 
-#include "selfie_obstacle_detection/CornerDetector"
+#include "selfie_obstacle_detection/CornerDetector.h"
 
 #include <gtest/gtest.h>
+
+using selfie_obstacle_detection::CornerDetector;
 
 TEST(CornerDetectorTestSuite, basicTest)
 {
