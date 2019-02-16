@@ -19,6 +19,8 @@ using selfie_obstacle_detection::CornerDetector;
 
 using ::testing::_;
 using ::testing::Return;
+using ::testing::DoAll;
+using ::testing::SetArgReferee;
 
 class MockObstacleObservationsExtractor
 	: public IObstacleObservationsExtractor
@@ -48,10 +50,13 @@ TEST(CornerDetectorTestSuite, singleEdgeObservation)
 
 	ObstacleObservations observations = { edgeObservation };
 
+	Line edgeLine;
+
 	EXPECT_CALL(extractor, extractObstacleObservations(scan))
 		.WillOnce(Return(observations));
 
-	EXPECT_CALL(helper, fitLineToSegment(_, _, _));
+	EXPECT_CALL(helper, fitLineToSegment(_, _, _))
+		.WillRepeatedly(DoAll(SetArgReferee<2>(edgeLine), Return(true)));
 
 	detector.detectCorners(scan);
 }
