@@ -11,9 +11,11 @@ namespace selfie_obstacle_detection
 {
 
 CornerDetector::CornerDetector(IObstacleObservationsExtractor* extractor,
-                               ILineHelper* helper)
+                               ILineHelper* helper,
+                               ICornerGenerator* generator)
 	: extractor_(extractor),
-	  helper_   (helper)
+	  helper_   (helper),
+	  generator_(generator)
 { }
 
 void CornerDetector::detectCorners(LaserScanPtr scan)

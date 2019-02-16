@@ -17,6 +17,7 @@ using selfie_obstacle_detection::ObstacleObservation;
 using selfie_obstacle_detection::ObstacleObservations;
 using selfie_obstacle_detection::IObstacleObservationsExtractor;
 using selfie_obstacle_detection::ILineHelper;
+using selfie_obstacle_detection::ICornerGenerator;
 using selfie_obstacle_detection::CornerDetector;
 
 using ::testing::_;
@@ -41,11 +42,16 @@ public:
 	MOCK_METHOD2(projectPointOntoLine, PointPtr(PointPtr point, LinePtr line));
 };
 
+class MockCornerGenerator : public ICornerGenerator
+{ };
+
 TEST(CornerDetectorTestSuite, singleEdgeObservation)
 {
 	MockObstacleObservationsExtractor extractor;
 	MockLineHelper helper;
-	CornerDetector detector(&extractor, &helper);
+	MockCornerGenerator generator;
+
+	CornerDetector detector(&extractor, &helper, &generator);
 
 	LaserScanPtr scan;
 
