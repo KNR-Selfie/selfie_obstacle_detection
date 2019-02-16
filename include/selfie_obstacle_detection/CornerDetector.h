@@ -7,6 +7,7 @@
 #define CORNER_DETECTOR_H
 
 #include "selfie_obstacle_detection/IObstacleObservationsExtractor.h"
+#include "selfie_obstacle_detection/ILineHelper.h"
 
 #include <sensor_msgs/LaserScan.h>
 
@@ -16,8 +17,9 @@ namespace selfie_obstacle_detection
 class CornerDetector
 {
 	IObstacleObservationsExtractor* extractor_;
+	ILineHelper* helper_;
 public:
-	CornerDetector(IObstacleObservationsExtractor* extractor);
+	CornerDetector(IObstacleObservationsExtractor* extractor, ILineHelper* helper);
 	void detectCorners(sensor_msgs::LaserScanPtr scan);
 }; // class CornerDetector
 

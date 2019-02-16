@@ -16,7 +16,7 @@ namespace selfie_obstacle_detection
 class IObstacleObservationsExtractor
 {
 public:
-	virtual ~IObstacleObservationsExtractor() {}
+	virtual ~IObstacleObservationsExtractor() { }
 	virtual ObstacleObservations extractObstacleObservations(sensor_msgs::LaserScanPtr scan) = 0;
 }; // class IObstacleObservationsExtractor
 

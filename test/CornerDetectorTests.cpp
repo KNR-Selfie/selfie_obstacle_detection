@@ -13,6 +13,7 @@ using selfie_obstacle_detection::PointXY;
 using selfie_obstacle_detection::ObstacleObservation;
 using selfie_obstacle_detection::ObstacleObservations;
 using selfie_obstacle_detection::IObstacleObservationsExtractor;
+using selfie_obstacle_detection::ILineHelper;
 using selfie_obstacle_detection::CornerDetector;
 
 using ::testing::Return;
@@ -24,10 +25,13 @@ public:
 	MOCK_METHOD1(extractObstacleObservations, ObstacleObservations(LaserScanPtr scan));
 };
 
+class MockLineHelper : public ILineHelper { };
+
 TEST(CornerDetectorTestSuite, basicTest)
 {
 	MockObstacleObservationsExtractor extractor;
-	CornerDetector detector(&extractor);
+	MockLineHelper helper;
+	CornerDetector detector(&extractor, &helper);
 
 	LaserScanPtr scan;
 
