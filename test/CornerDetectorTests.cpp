@@ -9,8 +9,10 @@
 
 using sensor_msgs::LaserScanPtr;
 
-using selfie_obstacle_detection::PointXY;
+using selfie_obstacle_detection::Point;
+using selfie_obstacle_detection::PointPtr;
 using selfie_obstacle_detection::Line;
+using selfie_obstacle_detection::LinePtr;
 using selfie_obstacle_detection::ObstacleObservation;
 using selfie_obstacle_detection::ObstacleObservations;
 using selfie_obstacle_detection::IObstacleObservationsExtractor;
@@ -34,7 +36,9 @@ class MockLineHelper : public ILineHelper
 public:
 	MOCK_METHOD3(fitLineToSegment, bool(ObstacleObservation::iterator start,
 	                                    ObstacleObservation::iterator end,
-	                                    Line& line));
+	                                    LinePtr& line));
+
+	MOCK_METHOD2(projectPointOntoLine, PointPtr(PointPtr point, LinePtr line));
 };
 
 TEST(CornerDetectorTestSuite, singleEdgeObservation)
@@ -46,17 +50,26 @@ TEST(CornerDetectorTestSuite, singleEdgeObservation)
 	LaserScanPtr scan;
 
 	ObstacleObservation edgeObservation;
-	for (int i = 0; i < 15; i++) edgeObservation.emplace_back(0, 0);
+	for (int i = 0; i < 15; i++) edgeObservation.emplace_back(new Point(0, 0));
 
 	ObstacleObservations observations = { edgeObservation };
-
-	Line edgeLine;
 
 	EXPECT_CALL(extractor, extractObstacleObservations(scan))
 		.WillOnce(Return(observations));
 
+	LinePtr edgeLine = LinePtr(new Line());
+
 	EXPECT_CALL(helper, fitLineToSegment(_, _, _))
 		.WillRepeatedly(DoAll(SetArgReferee<2>(edgeLine), Return(true)));
+
+	PointPtr firstProjected = PointPtr(new Point(0, 0));
+	PointPtr lastProjected  = PointPtr(new Point(0, 0));
+
+	EXPECT_CALL(helper, projectPointOntoLine(*edgeObservation.begin(), edgeLine))
+		.WillOnce(Return(firstProjected));
+
+	EXPECT_CALL(helper, projectPointOntoLine(*edgeObservation.end(), edgeLine))
+		.WillOnce(Return(firstProjected));
 
 	detector.detectCorners(scan);
 }

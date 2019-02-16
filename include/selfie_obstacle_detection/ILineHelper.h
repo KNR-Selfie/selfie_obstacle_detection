@@ -15,9 +15,13 @@ class ILineHelper
 {
 public:
 	virtual ~ILineHelper() { }
+
 	virtual bool fitLineToSegment(ObstacleObservation::iterator start,
 	                              ObstacleObservation::iterator end,
-	                              Line& line) = 0;
+	                              LinePtr& line) = 0;
+
+	virtual PointPtr projectPointOntoLine(PointPtr point,
+	                                      LinePtr line) = 0;
 }; // class ILineHelper
 
 } // namespace selfie_obstacle_detection

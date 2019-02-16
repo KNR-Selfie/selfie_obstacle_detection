@@ -6,19 +6,22 @@
 #ifndef OBSTACLE_OBSERVATIONS_H
 #define OBSTACLE_OBSERVATIONS_H
 
+#include <memory>
 #include <vector>
 
 namespace selfie_obstacle_detection
 {
 
-struct PointXY
+struct Point
 {
 	float x;
 	float y;
 
-	PointXY(float x, float y)
+	Point(float x, float y)
 		: x(x), y(y) { };
 };
+
+typedef std::shared_ptr<Point> PointPtr;
 
 struct Line
 {
@@ -27,7 +30,9 @@ struct Line
 	float C;
 };
 
-typedef std::vector<PointXY> ObstacleObservation;
+typedef std::shared_ptr<Line> LinePtr;
+
+typedef std::vector<PointPtr> ObstacleObservation;
 typedef std::vector<ObstacleObservation> ObstacleObservations;
 
 } // namespace selfie_obstacle_detection
