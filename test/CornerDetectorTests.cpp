@@ -68,7 +68,7 @@ TEST(CornerDetectorTestSuite, singleEdgeObservation)
 	EXPECT_CALL(helper, projectPointOntoLine(*edgeObservation.begin(), edgeLine))
 		.WillOnce(Return(firstProjected));
 
-	EXPECT_CALL(helper, projectPointOntoLine(*edgeObservation.end(), edgeLine))
+	EXPECT_CALL(helper, projectPointOntoLine(*std::prev(edgeObservation.end()), edgeLine))
 		.WillOnce(Return(firstProjected));
 
 	detector.detectCorners(scan);

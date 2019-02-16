@@ -26,7 +26,7 @@ void CornerDetector::detectCorners(LaserScanPtr scan)
 		helper_->fitLineToSegment(observation.begin(), observation.end(), line);
 
 		helper_->projectPointOntoLine(*observation.begin(), line);
-		helper_->projectPointOntoLine(*observation.end(), line);
+		helper_->projectPointOntoLine(*std::prev(observation.end()), line);
 	}
 }
 
