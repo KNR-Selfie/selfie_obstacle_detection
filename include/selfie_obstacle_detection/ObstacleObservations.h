@@ -20,6 +20,13 @@ struct PointXY
 		: x(x), y(y) { };
 };
 
+struct Line
+{
+	float A;
+	float B;
+	float C;
+};
+
 typedef std::vector<PointXY> ObstacleObservation;
 typedef std::vector<ObstacleObservation> ObstacleObservations;
 

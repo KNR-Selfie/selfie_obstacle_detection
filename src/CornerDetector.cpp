@@ -18,7 +18,13 @@ CornerDetector::CornerDetector(IObstacleObservationsExtractor* extractor,
 
 void CornerDetector::detectCorners(LaserScanPtr scan)
 {
-	extractor_->extractObstacleObservations(scan);
+	ObstacleObservations observations = extractor_->extractObstacleObservations(scan);
+
+	for (auto observation : observations)
+	{
+		Line line;
+		helper_->fitLineToSegment(observation.begin(), observation.end(), line);
+	}
 }
 
 } // namespace selfie_obstacle_detection
