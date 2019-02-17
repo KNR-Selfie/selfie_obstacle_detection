@@ -21,6 +21,7 @@ using selfie_obstacle_detection::PointPtr;
 using selfie_obstacle_detection::Line;
 using selfie_obstacle_detection::LinePtr;
 using selfie_obstacle_detection::ObstacleObservation;
+using selfie_obstacle_detection::ObstacleObservationPtr;
 using selfie_obstacle_detection::ObstacleObservations;
 using selfie_obstacle_detection::IObstacleObservationsExtractor;
 using selfie_obstacle_detection::ILineHelper;
@@ -29,11 +30,17 @@ using selfie_obstacle_detection::CornerDetector;
 
 using std::vector;
 using std::find;
+using std::prev;
+using std::next;
 
 using ::testing::_;
 using ::testing::Return;
 using ::testing::DoAll;
 using ::testing::SetArgReferee;
+using ::testing::Lt;
+using ::testing::Le;
+using ::testing::Gt;
+using ::testing::Ge;
 
 #define CONTAINS(v, el) (find(v.begin(), v.end(), el) != v.end())
 
@@ -106,8 +113,8 @@ TEST(CornerDetectorTestSuite, singleEdgeObservation)
 	LaserScanPtr scan(new LaserScan());
 	fillHeader(scan->header);
 
-	ObstacleObservation edgeObservation;
-	for (int i = 0; i < 15; i++) edgeObservation.emplace_back(new Point(0, 0));
+	ObstacleObservationPtr edgeObservation(new ObstacleObservation());
+	for (int i = 0; i < 15; i++) edgeObservation->emplace_back(new Point(0, 0));
 
 	ObstacleObservations observations = { edgeObservation };
 
@@ -122,10 +129,10 @@ TEST(CornerDetectorTestSuite, singleEdgeObservation)
 	PointPtr p1 = PointPtr(new Point(0, 0));
 	PointPtr p2 = PointPtr(new Point(0, 0));
 
-	EXPECT_CALL(helper, projectPointOntoLine(*edgeObservation.begin(), edgeLine))
+	EXPECT_CALL(helper, projectPointOntoLine(*edgeObservation->begin(), edgeLine))
 		.WillOnce(Return(p1));
 
-	EXPECT_CALL(helper, projectPointOntoLine(*std::prev(edgeObservation.end()), edgeLine))
+	EXPECT_CALL(helper, projectPointOntoLine(*prev(edgeObservation->end()), edgeLine))
 		.WillOnce(Return(p2));
 
 	CornerPtr c1 = CornerPtr(new Corner());
@@ -146,6 +153,31 @@ TEST(CornerDetectorTestSuite, singleEdgeObservation)
 	EXPECT_EQ(corners->data.size(), 2);
 	EXPECT_TRUE(CONTAINS(corners->data, *c1));
 	EXPECT_TRUE(CONTAINS(corners->data, *c2));
+}
+
+TEST(CornerDetectorTestSuite, singleCornerObservation)
+{
+	MockObstacleObservationsExtractor extractor;
+	MockLineHelper helper;
+	MockCornerGenerator generator;
+
+	CornerDetector detector(&extractor, &helper, &generator);
+
+	LaserScanPtr scan(new LaserScan());
+
+	ObstacleObservationPtr cornerObservation(new ObstacleObservation());
+	for (int i = 0; i < 15; i++) cornerObservation->emplace_back(new Point(0, 0));
+	ObstacleObservation::iterator cornerPointLocation = next(cornerObservation->begin(), 9);
+
+	ObstacleObservations observations = { cornerObservation };
+
+	EXPECT_CALL(extractor, extractObstacleObservations(_))
+		.WillOnce(Return(observations));
+
+	EXPECT_CALL(helper, fitLineToSegment(Le(cornerPointLocation), Ge(cornerPointLocation), _))
+		.WillRepeatedly(Return(false));
+
+	detector.detectCorners(scan);
 }
 
 int main(int argc, char **argv)

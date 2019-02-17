@@ -33,7 +33,9 @@ struct Line
 typedef std::shared_ptr<Line> LinePtr;
 
 typedef std::vector<PointPtr> ObstacleObservation;
-typedef std::vector<ObstacleObservation> ObstacleObservations;
+typedef std::shared_ptr<ObstacleObservation> ObstacleObservationPtr;
+
+typedef std::vector<ObstacleObservationPtr> ObstacleObservations;
 
 } // namespace selfie_obstacle_detection
 
