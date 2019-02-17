@@ -33,6 +33,10 @@ CornerArrayPtr CornerDetector::detectCorners(LaserScanPtr scan)
 		CornerPtr c1, c2;
 		generator_->generateCorners(p1, p2, c1, c2);
 	}
+
+	CornerArrayPtr corners(new CornerArray());
+	corners->header = scan->header;
+	return corners;
 }
 
 } // namespace selfie_obstacle_detection

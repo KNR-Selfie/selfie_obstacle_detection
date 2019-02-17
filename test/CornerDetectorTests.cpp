@@ -7,7 +7,10 @@
 
 #include <gmock/gmock.h>
 
+using sensor_msgs::LaserScan;
 using sensor_msgs::LaserScanPtr;
+
+using std_msgs::Header;
 
 using selfie_obstacle_detection::Corner;
 using selfie_obstacle_detection::CornerPtr;
@@ -56,6 +59,21 @@ public:
 	                                   CornerPtr& secondCorner));
 };
 
+namespace std_msgs
+{
+
+bool operator==(const Header& h1, const Header& h2)
+{
+	return h1.frame_id == h2.frame_id;
+}
+
+} // namespace std_msgs
+
+void fillHeader(Header& header)
+{
+	header.frame_id = "test";
+}
+
 TEST(CornerDetectorTestSuite, singleEdgeObservation)
 {
 	MockObstacleObservationsExtractor extractor;
@@ -64,7 +82,8 @@ TEST(CornerDetectorTestSuite, singleEdgeObservation)
 
 	CornerDetector detector(&extractor, &helper, &generator);
 
-	LaserScanPtr scan;
+	LaserScanPtr scan(new LaserScan());
+	fillHeader(scan->header);
 
 	ObstacleObservation edgeObservation;
 	for (int i = 0; i < 15; i++) edgeObservation.emplace_back(new Point(0, 0));
@@ -95,6 +114,8 @@ TEST(CornerDetectorTestSuite, singleEdgeObservation)
 		.WillOnce(DoAll(SetArgReferee<2>(c1), SetArgReferee<3>(c2)));
 
 	CornerArrayPtr corners = detector.detectCorners(scan);
+
+	EXPECT_EQ(corners->header, scan->header);
 }
 
 int main(int argc, char **argv)

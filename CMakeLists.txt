@@ -43,5 +43,5 @@ install(FILES nodelet_plugins.xml
 
 if(CATKIN_ENABLE_TESTING)
   catkin_add_gmock(CornerDetectorTests test/CornerDetectorTests.cpp)
-  target_link_libraries(CornerDetectorTests CornerDetector)
+  target_link_libraries(CornerDetectorTests ${catkin_LIBRARIES} CornerDetector)
 endif()
