@@ -9,6 +9,7 @@
 
 using sensor_msgs::LaserScanPtr;
 
+using selfie_obstacle_detection::Corner;
 using selfie_obstacle_detection::CornerPtr;
 using selfie_obstacle_detection::Point;
 using selfie_obstacle_detection::PointPtr;
@@ -75,16 +76,20 @@ TEST(CornerDetectorTestSuite, singleEdgeObservation)
 	EXPECT_CALL(helper, fitLineToSegment(_, _, _))
 		.WillRepeatedly(DoAll(SetArgReferee<2>(edgeLine), Return(true)));
 
-	PointPtr firstProjected = PointPtr(new Point(0, 0));
-	PointPtr lastProjected  = PointPtr(new Point(0, 0));
+	PointPtr p1 = PointPtr(new Point(0, 0));
+	PointPtr p2 = PointPtr(new Point(0, 0));
 
 	EXPECT_CALL(helper, projectPointOntoLine(*edgeObservation.begin(), edgeLine))
-		.WillOnce(Return(firstProjected));
+		.WillOnce(Return(p1));
 
 	EXPECT_CALL(helper, projectPointOntoLine(*std::prev(edgeObservation.end()), edgeLine))
-		.WillOnce(Return(lastProjected));
+		.WillOnce(Return(p2));
 
-	EXPECT_CALL(generator, generateCorners(firstProjected, lastProjected, _, _));
+	CornerPtr c1 = CornerPtr(new Corner());
+	CornerPtr c2 = CornerPtr(new Corner());
+
+	EXPECT_CALL(generator, generateCorners(p1, p2, _, _))
+		.WillOnce(DoAll(SetArgReferee<2>(c1), SetArgReferee<3>(c2)));
 
 	detector.detectCorners(scan);
 }
