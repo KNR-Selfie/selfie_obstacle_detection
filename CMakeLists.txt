@@ -13,9 +13,13 @@ find_package(catkin REQUIRED COMPONENTS
 add_message_files(
   FILES
   Corner.msg
+  CornerArray.msg
 )
 
-generate_messages()
+generate_messages(
+  DEPENDENCIES
+  std_msgs
+)
 
 catkin_package(
   CATKIN_DEPENDS nodelet roscpp sensor_msgs message_runtime

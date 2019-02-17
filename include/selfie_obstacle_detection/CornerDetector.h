@@ -9,6 +9,7 @@
 #include "selfie_obstacle_detection/IObstacleObservationsExtractor.h"
 #include "selfie_obstacle_detection/ILineHelper.h"
 #include "selfie_obstacle_detection/ICornerGenerator.h"
+#include "selfie_obstacle_detection/CornerArray.h"
 
 #include <sensor_msgs/LaserScan.h>
 
@@ -22,7 +23,7 @@ class CornerDetector
 	ICornerGenerator* generator_;
 public:
 	CornerDetector(IObstacleObservationsExtractor* extractor, ILineHelper* helper, ICornerGenerator* generator);
-	void detectCorners(sensor_msgs::LaserScanPtr scan);
+	CornerArrayPtr detectCorners(sensor_msgs::LaserScanPtr scan);
 }; // class CornerDetector
 
 } // namespace selfie_obstacle_detection

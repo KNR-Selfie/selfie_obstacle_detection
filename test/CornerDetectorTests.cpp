@@ -11,6 +11,7 @@ using sensor_msgs::LaserScanPtr;
 
 using selfie_obstacle_detection::Corner;
 using selfie_obstacle_detection::CornerPtr;
+using selfie_obstacle_detection::CornerArrayPtr;
 using selfie_obstacle_detection::Point;
 using selfie_obstacle_detection::PointPtr;
 using selfie_obstacle_detection::Line;
@@ -21,6 +22,8 @@ using selfie_obstacle_detection::IObstacleObservationsExtractor;
 using selfie_obstacle_detection::ILineHelper;
 using selfie_obstacle_detection::ICornerGenerator;
 using selfie_obstacle_detection::CornerDetector;
+
+using std::vector;
 
 using ::testing::_;
 using ::testing::Return;
@@ -91,7 +94,7 @@ TEST(CornerDetectorTestSuite, singleEdgeObservation)
 	EXPECT_CALL(generator, generateCorners(p1, p2, _, _))
 		.WillOnce(DoAll(SetArgReferee<2>(c1), SetArgReferee<3>(c2)));
 
-	detector.detectCorners(scan);
+	CornerArrayPtr corners = detector.detectCorners(scan);
 }
 
 int main(int argc, char **argv)

@@ -7,8 +7,7 @@
 #define I_CORNER_GENERATOR_H
 
 #include "selfie_obstacle_detection/ObstacleObservations.h"
-
-#include <selfie_obstacle_detection/Corner.h>
+#include "selfie_obstacle_detection/Corner.h"
 
 namespace selfie_obstacle_detection
 {

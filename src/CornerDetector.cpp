@@ -18,7 +18,7 @@ CornerDetector::CornerDetector(IObstacleObservationsExtractor* extractor,
 	  generator_(generator)
 { }
 
-void CornerDetector::detectCorners(LaserScanPtr scan)
+CornerArrayPtr CornerDetector::detectCorners(LaserScanPtr scan)
 {
 	ObstacleObservations observations = extractor_->extractObstacleObservations(scan);
 
