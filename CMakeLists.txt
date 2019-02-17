@@ -7,16 +7,25 @@ find_package(catkin REQUIRED COMPONENTS
   nodelet
   roscpp
   sensor_msgs
+  message_generation
 )
 
+add_message_files(
+  FILES
+  Corner.msg
+)
+
+generate_messages()
+
 catkin_package(
-  CATKIN_DEPENDS nodelet roscpp sensor_msgs
+  CATKIN_DEPENDS nodelet roscpp sensor_msgs message_runtime
   LIBRARIES ${PROJECT_NAME}
 )
 
 include_directories(${catkin_INCLUDE_DIRS} include)
 
 add_library(CornerDetector src/CornerDetector.cpp)
+add_dependencies(CornerDetector ${selfie_obstacle_detection_EXPORTED_TARGETS})
 
 # Nodelet library
 add_library(${PROJECT_NAME} src/nodelets/remove_background.cpp)

@@ -9,6 +9,7 @@
 
 using sensor_msgs::LaserScanPtr;
 
+using selfie_obstacle_detection::CornerPtr;
 using selfie_obstacle_detection::Point;
 using selfie_obstacle_detection::PointPtr;
 using selfie_obstacle_detection::Line;
@@ -43,7 +44,13 @@ public:
 };
 
 class MockCornerGenerator : public ICornerGenerator
-{ };
+{
+public:
+	MOCK_METHOD4(generateCorners, void(PointPtr firstPoint,
+	                                   PointPtr secondPoint,
+	                                   CornerPtr& firstCorner,
+	                                   CornerPtr& secondCorner));
+};
 
 TEST(CornerDetectorTestSuite, singleEdgeObservation)
 {
@@ -75,7 +82,9 @@ TEST(CornerDetectorTestSuite, singleEdgeObservation)
 		.WillOnce(Return(firstProjected));
 
 	EXPECT_CALL(helper, projectPointOntoLine(*std::prev(edgeObservation.end()), edgeLine))
-		.WillOnce(Return(firstProjected));
+		.WillOnce(Return(lastProjected));
+
+	EXPECT_CALL(generator, generateCorners(firstProjected, lastProjected, _, _));
 
 	detector.detectCorners(scan);
 }
