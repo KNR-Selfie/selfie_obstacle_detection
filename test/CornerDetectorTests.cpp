@@ -6,6 +6,7 @@
 #include "selfie_obstacle_detection/CornerDetector.h"
 
 #include <gmock/gmock.h>
+#include <algorithm>
 
 using sensor_msgs::LaserScan;
 using sensor_msgs::LaserScanPtr;
@@ -27,11 +28,14 @@ using selfie_obstacle_detection::ICornerGenerator;
 using selfie_obstacle_detection::CornerDetector;
 
 using std::vector;
+using std::find;
 
 using ::testing::_;
 using ::testing::Return;
 using ::testing::DoAll;
 using ::testing::SetArgReferee;
+
+#define CONTAINS(v, el) (find(v.begin(), v.end(), el) != v.end())
 
 class MockObstacleObservationsExtractor
 	: public IObstacleObservationsExtractor
@@ -74,6 +78,23 @@ void fillHeader(Header& header)
 	header.frame_id = "test";
 }
 
+namespace selfie_obstacle_detection
+{
+
+bool operator==(const Corner& c1, const Corner& c2)
+{
+	return c1.pose.position.x == c2.pose.position.x
+	    && c1.pose.position.y == c2.pose.position.y
+	    && c1.pose.position.z == c2.pose.position.z
+
+	    && c1.pose.orientation.x == c2.pose.orientation.x
+	    && c1.pose.orientation.y == c2.pose.orientation.y
+	    && c1.pose.orientation.z == c2.pose.orientation.z
+	    && c1.pose.orientation.w == c2.pose.orientation.w;
+}
+
+} // namespace selfie_obstacle_detection
+
 TEST(CornerDetectorTestSuite, singleEdgeObservation)
 {
 	MockObstacleObservationsExtractor extractor;
@@ -108,7 +129,12 @@ TEST(CornerDetectorTestSuite, singleEdgeObservation)
 		.WillOnce(Return(p2));
 
 	CornerPtr c1 = CornerPtr(new Corner());
+	c1->pose.position.x = 0.5;
+	c1->pose.position.y = 2.3;
+
 	CornerPtr c2 = CornerPtr(new Corner());
+	c1->pose.position.x = 1.5;
+	c1->pose.position.y = 0.2;
 
 	EXPECT_CALL(generator, generateCorners(p1, p2, _, _))
 		.WillOnce(DoAll(SetArgReferee<2>(c1), SetArgReferee<3>(c2)));
@@ -116,6 +142,10 @@ TEST(CornerDetectorTestSuite, singleEdgeObservation)
 	CornerArrayPtr corners = detector.detectCorners(scan);
 
 	EXPECT_EQ(corners->header, scan->header);
+
+	EXPECT_EQ(corners->data.size(), 2);
+	EXPECT_TRUE(CONTAINS(corners->data, *c1));
+	EXPECT_TRUE(CONTAINS(corners->data, *c2));
 }
 
 int main(int argc, char **argv)

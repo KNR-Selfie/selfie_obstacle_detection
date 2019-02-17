@@ -22,6 +22,7 @@ CornerArrayPtr CornerDetector::detectCorners(LaserScanPtr scan)
 {
 	ObstacleObservations observations = extractor_->extractObstacleObservations(scan);
 
+	CornerArrayPtr corners(new CornerArray());
 	for (auto observation : observations)
 	{
 		LinePtr line;
@@ -32,9 +33,11 @@ CornerArrayPtr CornerDetector::detectCorners(LaserScanPtr scan)
 
 		CornerPtr c1, c2;
 		generator_->generateCorners(p1, p2, c1, c2);
+
+		corners->data.push_back(*c1);
+		corners->data.push_back(*c2);
 	}
 
-	CornerArrayPtr corners(new CornerArray());
 	corners->header = scan->header;
 	return corners;
 }
