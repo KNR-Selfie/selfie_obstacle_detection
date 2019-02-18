@@ -199,10 +199,18 @@ TEST(CornerDetectorTestSuite, singleCornerObservation)
 	EXPECT_CALL(helper, arePerpendicular(l1, l2))
 		.WillOnce(Return(true));
 
-	PointPtr p = PointPtr(new Point(0, 0));
+	PointPtr p1 = PointPtr(new Point(0, 0));
+	PointPtr p2 = PointPtr(new Point(0, 0));
+	PointPtr p3 = PointPtr(new Point(0, 0));
 
-	EXPECT_CALL(helper, findIntersection(_, _))
-		.WillOnce(Return(p));
+	EXPECT_CALL(helper, projectPointOntoLine(*cornerObservation->begin(), l1))
+		.WillOnce(Return(p1));
+
+	EXPECT_CALL(helper, findIntersection(l1, l2))
+		.WillOnce(Return(p2));
+
+	EXPECT_CALL(helper, projectPointOntoLine(*prev(cornerObservation->end()), l2))
+		.WillOnce(Return(p3));
 
 	detector.detectCorners(scan);
 }
