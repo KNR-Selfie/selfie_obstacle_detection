@@ -15,6 +15,15 @@ ObstacleObservationsExtractor::ObstacleObservationsExtractor(IMeasurementValidat
 { }
 
 ObstacleObservations ObstacleObservationsExtractor::extractObstacleObservations(LaserScanPtr scan)
-{ }
+{
+	ObstacleObservations observations;
+
+	for (auto it = scan->ranges.begin(); it < scan->ranges.end(); it++)
+	{
+		validator_->isValid(*it);
+	}
+
+	return observations;
+}
 
 } // namespace selfie_obstacle_detection

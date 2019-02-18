@@ -7,18 +7,33 @@
 
 #include <gmock/gmock.h>
 
+using sensor_msgs::LaserScan;
+using sensor_msgs::LaserScanPtr;
+
 using selfie_obstacle_detection::IMeasurementValidator;
 using selfie_obstacle_detection::ObstacleObservationsExtractor;
 
+using ::testing::_;
+
 class MockMeasurementValidator
 	: public IMeasurementValidator
-{ };
+{
+public:
+	MOCK_METHOD1(isValid, bool(float measurement));
+};
 
 TEST(ObstacleObservationsExtractorTestSuite, basicTest)
 {
 	MockMeasurementValidator validator;
 
 	ObstacleObservationsExtractor extractor(&validator);
+
+	LaserScanPtr scan(new LaserScan());
+	scan->ranges.push_back(0);
+
+	EXPECT_CALL(validator, isValid(_));
+
+	extractor.extractObstacleObservations(scan);
 }
 
 int main(int argc, char **argv)
