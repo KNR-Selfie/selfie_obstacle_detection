@@ -61,6 +61,8 @@ public:
 	MOCK_METHOD2(projectPointOntoLine, PointPtr(PointPtr point, LinePtr line));
 
 	MOCK_METHOD2(arePerpendicular, bool(LinePtr l1, LinePtr l2));
+
+	MOCK_METHOD2(findIntersection, PointPtr(LinePtr l1, LinePtr l2));
 };
 
 class MockCornerGenerator : public ICornerGenerator
@@ -194,7 +196,13 @@ TEST(CornerDetectorTestSuite, singleCornerObservation)
 	EXPECT_CALL(helper, fitLineToSegment(cornerPointLocation, cornerObservation->end(), _))
 		.WillRepeatedly(DoAll(SetArgReferee<2>(l2), Return(true)));
 
-	EXPECT_CALL(helper, arePerpendicular(l1, l2));
+	EXPECT_CALL(helper, arePerpendicular(l1, l2))
+		.WillOnce(Return(true));
+
+	PointPtr p = PointPtr(new Point(0, 0));
+
+	EXPECT_CALL(helper, findIntersection(_, _))
+		.WillOnce(Return(p));
 
 	detector.detectCorners(scan);
 }

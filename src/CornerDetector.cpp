@@ -64,7 +64,13 @@ CornerArrayPtr CornerDetector::detectCorners(LaserScanPtr scan)
 		 */
 		if (helper_->fitLineToSegment(observation->begin(), prev(cornerPointLocation), leftLine))
 		{
-			helper_->arePerpendicular(leftLine, rightLine);
+			// Proceed only if the lines do indeed form a right-angled corner
+			if (helper_->arePerpendicular(leftLine, rightLine))
+			{
+				helper_->findIntersection(leftLine, rightLine);
+			}
+
+			continue;
 		}
 	}
 
