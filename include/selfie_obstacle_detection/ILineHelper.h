@@ -22,6 +22,8 @@ public:
 
 	virtual PointPtr projectPointOntoLine(PointPtr point,
 	                                      LinePtr line) = 0;
+
+	virtual bool arePerpendicular(LinePtr l1, LinePtr l2) = 0;
 }; // class ILineHelper
 
 } // namespace selfie_obstacle_detection

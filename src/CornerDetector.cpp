@@ -26,17 +26,46 @@ CornerArrayPtr CornerDetector::detectCorners(LaserScanPtr scan)
 	CornerArrayPtr corners(new CornerArray());
 	for (auto observation : observations)
 	{
-		LinePtr line;
-		if (!helper_->fitLineToSegment(observation->begin(), observation->end(), line)) continue;
+		LinePtr rightLine;
+		auto cornerPointLocation = observation->begin();
 
-		PointPtr p1 = helper_->projectPointOntoLine(*observation->begin(), line);
-		PointPtr p2 = helper_->projectPointOntoLine(*prev(observation->end()), line);
+		/**
+		 * Find the largest right subrange of points that can be fit by a line.
+		 */
+		while (cornerPointLocation < observation->end())
+		{
+			if (helper_->fitLineToSegment(cornerPointLocation, observation->end(), rightLine)) break;
+			cornerPointLocation++;
+		}
 
-		CornerPtr c1, c2;
-		generator_->generateCorners(p1, p2, c1, c2);
+		/**
+		 * CASE 1: All points can be fit by a single line.
+		 *         We see one edge of the obstacle.
+		 */
+		if (cornerPointLocation == observation->begin())
+		{
+			PointPtr p1 = helper_->projectPointOntoLine(*observation->begin(), rightLine);
+			PointPtr p2 = helper_->projectPointOntoLine(*prev(observation->end()), rightLine);
 
-		corners->data.push_back(*c1);
-		corners->data.push_back(*c2);
+			CornerPtr c1, c2;
+			generator_->generateCorners(p1, p2, c1, c2);
+
+			corners->data.push_back(*c1);
+			corners->data.push_back(*c2);
+
+			continue;
+		}
+
+		LinePtr leftLine;
+
+		/**
+		 * CASE 2: Points form two subsets, each of which can be fit by a line.
+		 *         We might be seeing a corner of the obstacle.
+		 */
+		if (helper_->fitLineToSegment(observation->begin(), prev(cornerPointLocation), leftLine))
+		{
+			helper_->arePerpendicular(leftLine, rightLine);
+		}
 	}
 
 	corners->header = scan->header;
