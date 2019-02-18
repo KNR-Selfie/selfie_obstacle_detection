@@ -10,6 +10,10 @@ using sensor_msgs::LaserScanPtr;
 namespace selfie_obstacle_detection
 {
 
+ObstacleObservationsExtractor::ObstacleObservationsExtractor(IMeasurementValidator* validator)
+	: validator_(validator)
+{ }
+
 ObstacleObservations ObstacleObservationsExtractor::extractObstacleObservations(LaserScanPtr scan)
 { }
 

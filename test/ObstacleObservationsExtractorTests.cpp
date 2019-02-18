@@ -7,11 +7,18 @@
 
 #include <gmock/gmock.h>
 
+using selfie_obstacle_detection::IMeasurementValidator;
 using selfie_obstacle_detection::ObstacleObservationsExtractor;
+
+class MockMeasurementValidator
+	: public IMeasurementValidator
+{ };
 
 TEST(ObstacleObservationsExtractorTestSuite, basicTest)
 {
-	ObstacleObservationsExtractor extractor;
+	MockMeasurementValidator validator;
+
+	ObstacleObservationsExtractor extractor(&validator);
 }
 
 int main(int argc, char **argv)
