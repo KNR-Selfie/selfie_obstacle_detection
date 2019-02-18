@@ -70,6 +70,9 @@ CornerArrayPtr CornerDetector::detectCorners(LaserScanPtr scan)
 				PointPtr p1 = helper_->projectPointOntoLine(*observation->begin(), leftLine);
 				PointPtr p2 = helper_->findIntersection(leftLine, rightLine);
 				PointPtr p3 = helper_->projectPointOntoLine(*prev(observation->end()), rightLine);
+
+				CornerPtr c1, c2, c3;
+				generator_->generateCorners(p1, p2, p3, c1, c2, c3);
 			}
 
 			continue;

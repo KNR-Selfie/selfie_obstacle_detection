@@ -68,10 +68,11 @@ public:
 class MockCornerGenerator : public ICornerGenerator
 {
 public:
-	MOCK_METHOD4(generateCorners, void(PointPtr firstPoint,
-	                                   PointPtr secondPoint,
-	                                   CornerPtr& firstCorner,
-	                                   CornerPtr& secondCorner));
+	MOCK_METHOD4(generateCorners, void(PointPtr   p1, PointPtr   p2,
+	                                   CornerPtr& c1, CornerPtr& c2));
+
+	MOCK_METHOD6(generateCorners, void(PointPtr   p1, PointPtr   p2, PointPtr   p3,
+	                                   CornerPtr& c1, CornerPtr& c2, CornerPtr& c3));
 };
 
 namespace std_msgs
@@ -211,6 +212,8 @@ TEST(CornerDetectorTestSuite, singleCornerObservation)
 
 	EXPECT_CALL(helper, projectPointOntoLine(*prev(cornerObservation->end()), l2))
 		.WillOnce(Return(p3));
+
+	EXPECT_CALL(generator, generateCorners(p1, p2, p3, _, _, _));
 
 	detector.detectCorners(scan);
 }
