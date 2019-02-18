@@ -73,6 +73,10 @@ CornerArrayPtr CornerDetector::detectCorners(LaserScanPtr scan)
 
 				CornerPtr c1, c2, c3;
 				generator_->generateCorners(p1, p2, p3, c1, c2, c3);
+
+				corners->data.push_back(*c1);
+				corners->data.push_back(*c2);
+				corners->data.push_back(*c3);
 			}
 
 			continue;

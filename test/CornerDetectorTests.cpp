@@ -213,9 +213,27 @@ TEST(CornerDetectorTestSuite, singleCornerObservation)
 	EXPECT_CALL(helper, projectPointOntoLine(*prev(cornerObservation->end()), l2))
 		.WillOnce(Return(p3));
 
-	EXPECT_CALL(generator, generateCorners(p1, p2, p3, _, _, _));
+	CornerPtr c1 = CornerPtr(new Corner());
+	c1->pose.position.x =  1.0;
+	c1->pose.position.y = -1.0;
 
-	detector.detectCorners(scan);
+	CornerPtr c2 = CornerPtr(new Corner());
+	c1->pose.position.x =  0.0;
+	c1->pose.position.y = -1.0;
+
+	CornerPtr c3 = CornerPtr(new Corner());
+	c1->pose.position.x =  0.0;
+	c1->pose.position.y =  1.0;
+
+	EXPECT_CALL(generator, generateCorners(p1, p2, p3, _, _, _))
+		.WillOnce(DoAll(SetArgReferee<3>(c1), SetArgReferee<4>(c2), SetArgReferee<5>(c3)));
+
+	CornerArrayPtr corners = detector.detectCorners(scan);
+
+	EXPECT_EQ(corners->data.size(), 3);
+	EXPECT_TRUE(CONTAINS(corners->data, *c1));
+	EXPECT_TRUE(CONTAINS(corners->data, *c2));
+	EXPECT_TRUE(CONTAINS(corners->data, *c3));
 }
 
 int main(int argc, char **argv)
