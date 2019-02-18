@@ -8,6 +8,7 @@
 
 #include "selfie_obstacle_detection/IObstacleObservationsExtractor.h"
 #include "selfie_obstacle_detection/IMeasurementValidator.h"
+#include "selfie_obstacle_detection/ICoordinatesTransformer.h"
 
 namespace selfie_obstacle_detection
 {
@@ -15,8 +16,9 @@ namespace selfie_obstacle_detection
 class ObstacleObservationsExtractor : public IObstacleObservationsExtractor
 {
 	IMeasurementValidator* validator_;
+	ICoordinatesTransformer* transformer_;
 public:
-	ObstacleObservationsExtractor(IMeasurementValidator* validator);
+	ObstacleObservationsExtractor(IMeasurementValidator* validator, ICoordinatesTransformer* transformer);
 	ObstacleObservations extractObstacleObservations(sensor_msgs::LaserScanPtr scan);
 }; // class ObstacleObservationsExtractor
 

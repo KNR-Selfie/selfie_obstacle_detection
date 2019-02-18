@@ -11,6 +11,7 @@ using sensor_msgs::LaserScan;
 using sensor_msgs::LaserScanPtr;
 
 using selfie_obstacle_detection::IMeasurementValidator;
+using selfie_obstacle_detection::ICoordinatesTransformer;
 using selfie_obstacle_detection::ObstacleObservationsExtractor;
 
 using ::testing::_;
@@ -22,11 +23,16 @@ public:
 	MOCK_METHOD1(isValid, bool(float measurement));
 };
 
+class MockCoordinatesTransformer
+	: public ICoordinatesTransformer
+{ };
+
 TEST(ObstacleObservationsExtractorTestSuite, basicTest)
 {
 	MockMeasurementValidator validator;
+	MockCoordinatesTransformer transformer;
 
-	ObstacleObservationsExtractor extractor(&validator);
+	ObstacleObservationsExtractor extractor(&validator, &transformer);
 
 	LaserScanPtr scan(new LaserScan());
 	scan->ranges.push_back(0);
