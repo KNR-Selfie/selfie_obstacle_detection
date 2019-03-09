@@ -20,8 +20,8 @@ class ObstacleObservationsExtractor : public IObstacleObservationsExtractor
 public:
   ObstacleObservationsExtractor(IMeasurementValidator* validator, ICoordinatesTransformer* transformer);
   ObstacleObservations extractObstacleObservations(sensor_msgs::LaserScanPtr scan);
-}; // class ObstacleObservationsExtractor
+};  // class ObstacleObservationsExtractor
 
-} // namespace selfie_obstacle_detection
+}  // namespace selfie_obstacle_detection
 
 #endif /* OBSTACLE_OBSERVATIONS_EXTRACTOR_H */

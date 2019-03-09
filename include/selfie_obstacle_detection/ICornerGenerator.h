@@ -22,8 +22,8 @@ public:
 
   virtual void generateCorners(PointPtr   p1, PointPtr   p2, PointPtr   p3,
                                CornerPtr& c1, CornerPtr& c2, CornerPtr& c3) = 0;
-}; // class ICornerGenerator
+};  // class ICornerGenerator
 
-} // namespace selfie_obstacle_detection
+}  // namespace selfie_obstacle_detection
 
 #endif /* I_CORNER_GENERATOR_H */

@@ -13,8 +13,8 @@ class ICoordinatesTransformer
 {
 public:
   virtual ~ICoordinatesTransformer() { }
-}; // class ICoordinatesTransformer
+};  // class ICoordinatesTransformer
 
-} // namespace selfie_obstacle_detection
+}  // namespace selfie_obstacle_detection
 
 #endif /* I_COORDINATES_TRANSFORMER_H */

@@ -87,4 +87,4 @@ CornerArrayPtr CornerDetector::detectCorners(LaserScanPtr scan)
   return corners;
 }
 
-} // namespace selfie_obstacle_detection
+}  // namespace selfie_obstacle_detection

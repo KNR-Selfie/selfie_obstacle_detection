@@ -14,8 +14,8 @@ class IMeasurementValidator
 public:
   virtual ~IMeasurementValidator() { }
   virtual bool isValid(float measurement) = 0;
-}; // class IMeasurementValidator
+};  // class IMeasurementValidator
 
-} // namespace selfie_obstacle_detection
+}  // namespace selfie_obstacle_detection
 
 #endif /* I_MEASUREMENT_VALIDATOR_H */

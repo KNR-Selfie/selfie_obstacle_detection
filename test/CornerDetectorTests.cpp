@@ -83,7 +83,7 @@ bool operator==(const Header& h1, const Header& h2)
   return h1.frame_id == h2.frame_id;
 }
 
-} // namespace std_msgs
+}  // namespace std_msgs
 
 void fillHeader(Header& header)
 {
@@ -105,7 +105,7 @@ bool operator==(const Corner& c1, const Corner& c2)
          && c1.pose.orientation.w == c2.pose.orientation.w;
 }
 
-} // namespace selfie_obstacle_detection
+}  // namespace selfie_obstacle_detection
 
 TEST(CornerDetectorTestSuite, singleEdgeObservation)
 {

@@ -9,6 +9,7 @@
 
 #include <cstring>
 #include <cmath>
+#include <vector>
 
 using sensor_msgs::LaserScan;
 using sensor_msgs::LaserScanPtr;
@@ -28,7 +29,7 @@ class RemoveBackgroundNodelet : public nodelet::Nodelet
 
   virtual void onInit();
   void processScan(const LaserScanPtr& in_scan);
-}; // class RemoveBackgroundNodelet
+};  // class RemoveBackgroundNodelet
 
 void RemoveBackgroundNodelet::onInit()
 {
@@ -144,7 +145,7 @@ void RemoveBackgroundNodelet::processScan(const LaserScanPtr& in_scan)
   pub_.publish(out_scan);
 }
 
-} // namespace selfie_obstacle_detection
+}  // namespace selfie_obstacle_detection
 
 // Register nodelet
 #include <pluginlib/class_list_macros.h>

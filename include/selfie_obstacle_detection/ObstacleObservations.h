@@ -37,6 +37,6 @@ typedef std::shared_ptr<ObstacleObservation> ObstacleObservationPtr;
 
 typedef std::vector<ObstacleObservationPtr> ObstacleObservations;
 
-} // namespace selfie_obstacle_detection
+}  // namespace selfie_obstacle_detection
 
 #endif /* OBSTACLE_OBSERVATIONS_H */

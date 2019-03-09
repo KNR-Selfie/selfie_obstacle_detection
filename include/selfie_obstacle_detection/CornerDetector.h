@@ -24,8 +24,8 @@ class CornerDetector
 public:
   CornerDetector(IObstacleObservationsExtractor* extractor, ILineHelper* helper, ICornerGenerator* generator);
   CornerArrayPtr detectCorners(sensor_msgs::LaserScanPtr scan);
-}; // class CornerDetector
+};  // class CornerDetector
 
-} // namespace selfie_obstacle_detection
+}  // namespace selfie_obstacle_detection
 
 #endif /* CORNER_DETECTOR_H */

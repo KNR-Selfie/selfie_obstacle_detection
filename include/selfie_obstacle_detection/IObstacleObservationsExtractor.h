@@ -18,8 +18,8 @@ class IObstacleObservationsExtractor
 public:
   virtual ~IObstacleObservationsExtractor() { }
   virtual ObstacleObservations extractObstacleObservations(sensor_msgs::LaserScanPtr scan) = 0;
-}; // class IObstacleObservationsExtractor
+};  // class IObstacleObservationsExtractor
 
-} // namespace selfie_obstacle_detection
+}  // namespace selfie_obstacle_detection
 
 #endif /* I_OBSTACLE_OBSERVATIONS_EXTRACTOR_H */

@@ -26,8 +26,8 @@ public:
   virtual bool arePerpendicular(LinePtr l1, LinePtr l2) = 0;
 
   virtual PointPtr findIntersection(LinePtr l1, LinePtr l2) = 0;
-}; // class ILineHelper
+};  // class ILineHelper
 
-} // namespace selfie_obstacle_detection
+}  // namespace selfie_obstacle_detection
 
 #endif /* I_LINE_HELPER_H */

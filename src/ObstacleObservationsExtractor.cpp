@@ -28,4 +28,4 @@ ObstacleObservations ObstacleObservationsExtractor::extractObstacleObservations(
   return observations;
 }
 
-} // namespace selfie_obstacle_detection
+}  // namespace selfie_obstacle_detection
