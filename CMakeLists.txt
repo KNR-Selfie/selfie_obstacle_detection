@@ -8,7 +8,10 @@ find_package(catkin REQUIRED COMPONENTS
   roscpp
   sensor_msgs
   message_generation
+  roslint
 )
+
+roslint_cpp()
 
 add_message_files(
   FILES
