@@ -12,7 +12,7 @@ namespace selfie_obstacle_detection
 class ICoordinatesTransformer
 {
 public:
-	virtual ~ICoordinatesTransformer() { }
+  virtual ~ICoordinatesTransformer() { }
 }; // class ICoordinatesTransformer
 
 } // namespace selfie_obstacle_detection

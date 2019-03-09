@@ -11,21 +11,21 @@ namespace selfie_obstacle_detection
 {
 
 ObstacleObservationsExtractor::ObstacleObservationsExtractor(IMeasurementValidator* validator,
-                                                             ICoordinatesTransformer* transformer)
-	: validator_  (validator),
-	  transformer_(transformer)
+    ICoordinatesTransformer* transformer)
+  : validator_(validator),
+    transformer_(transformer)
 { }
 
 ObstacleObservations ObstacleObservationsExtractor::extractObstacleObservations(LaserScanPtr scan)
 {
-	ObstacleObservations observations;
+  ObstacleObservations observations;
 
-	for (auto it = scan->ranges.begin(); it < scan->ranges.end(); it++)
-	{
-		validator_->isValid(*it);
-	}
+  for (auto it = scan->ranges.begin(); it < scan->ranges.end(); it++)
+  {
+    validator_->isValid(*it);
+  }
 
-	return observations;
+  return observations;
 }
 
 } // namespace selfie_obstacle_detection

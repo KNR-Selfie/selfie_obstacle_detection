@@ -14,20 +14,20 @@ namespace selfie_obstacle_detection
 
 struct Point
 {
-	float x;
-	float y;
+  float x;
+  float y;
 
-	Point(float x, float y)
-		: x(x), y(y) { };
+  Point(float x, float y)
+    : x(x), y(y) { };
 };
 
 typedef std::shared_ptr<Point> PointPtr;
 
 struct Line
 {
-	float A;
-	float B;
-	float C;
+  float A;
+  float B;
+  float C;
 };
 
 typedef std::shared_ptr<Line> LinePtr;

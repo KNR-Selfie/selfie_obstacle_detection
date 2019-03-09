@@ -18,12 +18,12 @@ namespace selfie_obstacle_detection
 
 class CornerDetector
 {
-	IObstacleObservationsExtractor* extractor_;
-	ILineHelper* helper_;
-	ICornerGenerator* generator_;
+  IObstacleObservationsExtractor* extractor_;
+  ILineHelper* helper_;
+  ICornerGenerator* generator_;
 public:
-	CornerDetector(IObstacleObservationsExtractor* extractor, ILineHelper* helper, ICornerGenerator* generator);
-	CornerArrayPtr detectCorners(sensor_msgs::LaserScanPtr scan);
+  CornerDetector(IObstacleObservationsExtractor* extractor, ILineHelper* helper, ICornerGenerator* generator);
+  CornerArrayPtr detectCorners(sensor_msgs::LaserScanPtr scan);
 }; // class CornerDetector
 
 } // namespace selfie_obstacle_detection

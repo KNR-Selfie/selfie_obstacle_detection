@@ -15,11 +15,11 @@ namespace selfie_obstacle_detection
 
 class ObstacleObservationsExtractor : public IObstacleObservationsExtractor
 {
-	IMeasurementValidator* validator_;
-	ICoordinatesTransformer* transformer_;
+  IMeasurementValidator* validator_;
+  ICoordinatesTransformer* transformer_;
 public:
-	ObstacleObservationsExtractor(IMeasurementValidator* validator, ICoordinatesTransformer* transformer);
-	ObstacleObservations extractObstacleObservations(sensor_msgs::LaserScanPtr scan);
+  ObstacleObservationsExtractor(IMeasurementValidator* validator, ICoordinatesTransformer* transformer);
+  ObstacleObservations extractObstacleObservations(sensor_msgs::LaserScanPtr scan);
 }; // class ObstacleObservationsExtractor
 
 } // namespace selfie_obstacle_detection

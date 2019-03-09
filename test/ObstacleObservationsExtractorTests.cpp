@@ -17,33 +17,33 @@ using selfie_obstacle_detection::ObstacleObservationsExtractor;
 using ::testing::_;
 
 class MockMeasurementValidator
-	: public IMeasurementValidator
+  : public IMeasurementValidator
 {
 public:
-	MOCK_METHOD1(isValid, bool(float measurement));
+  MOCK_METHOD1(isValid, bool(float measurement));
 };
 
 class MockCoordinatesTransformer
-	: public ICoordinatesTransformer
+  : public ICoordinatesTransformer
 { };
 
 TEST(ObstacleObservationsExtractorTestSuite, basicTest)
 {
-	MockMeasurementValidator validator;
-	MockCoordinatesTransformer transformer;
+  MockMeasurementValidator validator;
+  MockCoordinatesTransformer transformer;
 
-	ObstacleObservationsExtractor extractor(&validator, &transformer);
+  ObstacleObservationsExtractor extractor(&validator, &transformer);
 
-	LaserScanPtr scan(new LaserScan());
-	scan->ranges.push_back(0);
+  LaserScanPtr scan(new LaserScan());
+  scan->ranges.push_back(0);
 
-	EXPECT_CALL(validator, isValid(_));
+  EXPECT_CALL(validator, isValid(_));
 
-	extractor.extractObstacleObservations(scan);
+  extractor.extractObstacleObservations(scan);
 }
 
 int main(int argc, char **argv)
 {
-	::testing::InitGoogleMock(&argc, argv);
-	return RUN_ALL_TESTS();
+  ::testing::InitGoogleMock(&argc, argv);
+  return RUN_ALL_TESTS();
 }
