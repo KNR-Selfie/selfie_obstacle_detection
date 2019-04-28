@@ -20,9 +20,13 @@ ObstacleObservations ObstacleObservationsExtractor::extractObstacleObservations(
 {
   ObstacleObservations observations;
 
-  for (auto it = scan->ranges.begin(); it < scan->ranges.end(); it++)
+  for (int i = 0; i < scan->ranges.size(); i++)
   {
-    validator_->isValid(*it);
+    float range = scan->ranges[i];
+    if (validator_->isValid(range))
+    {
+      transformer_->transformCoordinates(scan, i, scan->ranges[i]);
+    }
   }
 
   return observations;
