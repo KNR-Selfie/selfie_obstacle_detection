@@ -19,13 +19,20 @@ ObstacleObservationsExtractor::ObstacleObservationsExtractor(IMeasurementValidat
 ObstacleObservations ObstacleObservationsExtractor::extractObstacleObservations(LaserScanPtr scan)
 {
   ObstacleObservations observations;
-
   for (int i = 0; i < scan->ranges.size(); i++)
   {
-    float range = scan->ranges[i];
-    if (validator_->isValid(range))
+    ObstacleObservationPtr observation(new ObstacleObservation());
+
+    while (i < scan->ranges.size() && validator_->isValid(scan->ranges[i]))
     {
-      transformer_->transformCoordinates(scan, i, scan->ranges[i]);
+      PointPtr point = transformer_->transformCoordinates(scan, i, scan->ranges[i]);
+      observation->push_back(point);
+      i++;
+    }
+
+    if (observation->size() > 0)
+    {
+      observations.push_back(observation);
     }
   }
 
