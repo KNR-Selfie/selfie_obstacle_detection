@@ -37,6 +37,12 @@ add_dependencies(CornerDetector ${selfie_obstacle_detection_EXPORTED_TARGETS})
 
 add_library(ObstacleObservationsExtractor src/ObstacleObservationsExtractor.cpp)
 
+add_executable(RemoveBackgroundNode src/RemoveBackgroundMaster.cpp src/RemoveBackground.cpp)
+
+target_link_libraries(
+  RemoveBackgroundNode
+  ${catkin_LIBRARIES}
+)
 # Nodelet library
 add_library(${PROJECT_NAME} src/nodelets/remove_background.cpp)
 
