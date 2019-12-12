@@ -25,7 +25,7 @@ ObstacleObservations ObstacleObservationsExtractor::extractObstacleObservations(
 
     while (i < scan->ranges.size() && validator_->isValid(scan->ranges[i]))
     {
-      PointPtr point = transformer_->transformCoordinates(scan, i, scan->ranges[i]);
+      PointPtr point = transformer_->transformCoordinates(scan, i, scan->ranges[i]); //transformacja na wspolrzedne kartezjanskie
       observation->push_back(point);
       i++;
     }

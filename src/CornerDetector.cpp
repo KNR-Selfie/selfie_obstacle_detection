@@ -21,26 +21,32 @@ CornerDetector::CornerDetector(IObstacleObservationsExtractor* extractor,
 
 CornerArrayPtr CornerDetector::detectCorners(LaserScanPtr scan)
 {
+  // generate obstacles candidates of incoming scan
   ObstacleObservations observations = extractor_->extractObstacleObservations(scan);
-
+  // generate corners to return
   CornerArrayPtr corners(new CornerArray());
   for (auto observation : observations)
   {
     LinePtr rightLine;
+    //begin of observation iterator
     auto cornerPointLocation = observation->begin();
 
     /**
      * Find the largest right subrange of points that can be fit by a line.
+     * Starting from first point to end, first point +1 to end until line bend point
+     * Generating ritght line until getting good accuracy according to threshold
+     * Exit generating if good line fits well
      */
     while (cornerPointLocation < observation->end())
     {
-      if (helper_->fitLineToSegment(cornerPointLocation, observation->end(), rightLine)) break;
+      if (helper_->fitLineToSegment(cornerPointLocation, observation->end(), rightLine)) break; // generuje right line i szuka punktu załamania krzywej jezeli widoczne sa 2 boki
       cornerPointLocation++;
     }
 
     /**
      * CASE 1: All points can be fit by a single line.
      *         We see one edge of the obstacle.
+     * Generating 2 corners
      */
     if (cornerPointLocation == observation->begin())
     {
@@ -61,8 +67,9 @@ CornerArrayPtr CornerDetector::detectCorners(LaserScanPtr scan)
     /**
      * CASE 2: Points form two subsets, each of which can be fit by a line.
      *         We might be seeing a corner of the obstacle.
+     * Find another line of obstacle
      */
-    if (helper_->fitLineToSegment(observation->begin(), prev(cornerPointLocation), leftLine))
+    if (helper_->fitLineToSegment(observation->begin(), prev(cornerPointLocation), leftLine))// poprzedni punkt, ponieważ wierzchołek należy tylko do prawej ściany, wiec chcecemy wziac punt poprzedni ktory jest kandydatem na ostatni punkt sciany lewej
     {
       // Proceed only if the lines do indeed form a right-angled corner
       if (helper_->arePerpendicular(leftLine, rightLine))
